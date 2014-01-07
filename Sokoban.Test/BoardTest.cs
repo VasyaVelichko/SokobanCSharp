@@ -5,13 +5,14 @@ namespace Alteridem.Sokoban.Test
    [TestFixture]
    public class BoardTest
    {
-      [TestCase( "#####\r\n#@$.#\r\n#####", 1, 1, '@' )]
-      [TestCase( "#####\n#@$.#\n#####", 1, 1, '@' )]
-      public void TestLoad( string boardStr, int x, int y, char c )
+      [TestCase( "", "" )]
+      [TestCase( "#####\r\n#@$.#\r\n#####", "#####\r\n#@$.#\r\n#####" )]
+      [TestCase( "#####\n#@$.#\n#####", "#####\r\n#@$.#\r\n#####" )]
+      public void TestLoad( string boardStr, string expected )
       {
          var board = new Board();
          board.Load(boardStr);
-         Assert.AreEqual( c, board.Squares[x,y] );
+         Assert.AreEqual( expected, board.ToString() );
       }
    }
 }
