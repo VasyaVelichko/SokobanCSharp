@@ -1,11 +1,12 @@
 ﻿using System;
-using System.Linq;
 using System.Text;
 
 namespace Alteridem.Sokoban
 {
    public class Board
    {
+      #region Board Defines
+
       private const char WALL = '#';
       private const char PLAYER = '@';
       private const char PLAYER_ON_GOAL = '+';
@@ -14,19 +15,29 @@ namespace Alteridem.Sokoban
       private const char GOAL = '.';
       private const char FLOOR = ' ';
 
+      #endregion
+
+      #region Private Members
+
       // The man's position
       private Position _player;
 
       // The moves that have been made
       private readonly StringBuilder _moveList = new StringBuilder();
 
+      #endregion
+
+      #region Properties
+
       public char[][] Squares { get; private set; }
 
       /// <summary>
       /// Gets the moves as a string.
       /// </summary>
-      public string MovesList { get { return _moveList.ToString( ); } }
-
+      public string MovesList
+      {
+         get { return _moveList.ToString(); }
+      }
 
       /// <summary>
       /// Gets the number of moves.
@@ -38,79 +49,34 @@ namespace Alteridem.Sokoban
       /// </summary>
       public int Pushes { get; private set; }
 
+      #endregion
+
+      #region Construction
+
       public Board()
       {
          Moves = 0;
          Pushes = 0;
       }
 
-      public void Load( string board )
+      public void Load(string board)
       {
-         board = board.Replace( "\r", "" );
+         board = board.Replace("\r", "");
 
          // TODO: Modify for RLE
 
-         string[] rows = board.Split( new[] { '\n' } );
+         string[] rows = board.Split(new[] {'\n'});
          Squares = new char[rows.Length][];
-         for ( int r = 0; r < rows.Length; r++ )
+         for (int r = 0; r < rows.Length; r++)
          {
             Squares[r] = rows[r].ToCharArray();
          }
          _player = FindPlayer();
       }
 
-      /// <summary>
-      /// Determines whether the move is valid.
-      /// </summary>
-      /// <param name="move"></param>
-      /// <returns></returns>
-      public bool IsMoveValid( Move move )
-      {
-         var newPlayer = _player.MakeMove( move );
+      #endregion
 
-         // Are we off the board? This includes one in from each edge.
-         if ( newPlayer.Row <= 0 ||
-              newPlayer.Row >= Squares.Length - 1 ||
-              newPlayer.Column <= 0 ||
-              newPlayer.Column >= Squares[newPlayer.Row].Length - 1
-            )
-         {
-            return false;
-         }
-
-         char square = Squares[newPlayer.Row][newPlayer.Column];
-         // Is the new position a wall?
-         if ( square == WALL )
-            return false;
-
-         // Is the new position floor or a goal?
-         if ( square == FLOOR || square == GOAL )
-            return true;
-
-         // Is the new position a box? Can we move the box?
-         if ( square == BOX || square == BOX_ON_GOAL )
-         {
-            var box = newPlayer.MakeMove( move );
-
-            // Are we off the board?
-            if ( box.Row < 0 ||
-                 box.Row >= Squares.Length ||
-                 box.Column < 0 ||
-                 box.Column >= Squares[box.Row].Length
-               )
-            {
-               return false;
-            }
-
-            // You can move a box onto the floor, or onto a goal
-            char boxSquare = Squares[box.Row][box.Column];
-            if ( boxSquare == FLOOR || boxSquare == GOAL )
-            {
-               return true;
-            }
-         }
-         return false;
-      }
+      #region Public Methods
 
       /// <summary>
       /// Applies the given move to the current board and returns a new board
@@ -172,6 +138,63 @@ namespace Alteridem.Sokoban
          return true;
       }
 
+      #endregion
+
+      #region Private Methods
+
+      /// <summary>
+      /// Determines whether the move is valid.
+      /// </summary>
+      /// <param name="move"></param>
+      /// <returns></returns>
+      private bool IsMoveValid( Move move )
+      {
+         var newPlayer = _player.MakeMove( move );
+
+         // Are we off the board? This includes one in from each edge.
+         if ( newPlayer.Row <= 0 ||
+              newPlayer.Row >= Squares.Length - 1 ||
+              newPlayer.Column <= 0 ||
+              newPlayer.Column >= Squares[newPlayer.Row].Length - 1
+            )
+         {
+            return false;
+         }
+
+         char square = Squares[newPlayer.Row][newPlayer.Column];
+         // Is the new position a wall?
+         if ( square == WALL )
+            return false;
+
+         // Is the new position floor or a goal?
+         if ( square == FLOOR || square == GOAL )
+            return true;
+
+         // Is the new position a box? Can we move the box?
+         if ( square == BOX || square == BOX_ON_GOAL )
+         {
+            var box = newPlayer.MakeMove( move );
+
+            // Are we off the board?
+            if ( box.Row < 0 ||
+                 box.Row >= Squares.Length ||
+                 box.Column < 0 ||
+                 box.Column >= Squares[box.Row].Length
+               )
+            {
+               return false;
+            }
+
+            // You can move a box onto the floor, or onto a goal
+            char boxSquare = Squares[box.Row][box.Column];
+            if ( boxSquare == FLOOR || boxSquare == GOAL )
+            {
+               return true;
+            }
+         }
+         return false;
+      }
+
       private char GetMoveLetter( Move move )
       {
          switch ( move )
@@ -203,7 +226,9 @@ namespace Alteridem.Sokoban
          return new Position( -1, -1 );
       }
 
-      #region Overrides of Object
+      #endregion
+
+      #region Overrides
 
       /// <summary>
       /// Returns a string that represents the current object.
