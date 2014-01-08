@@ -35,7 +35,7 @@ namespace Alteridem.Sokoban
       /// <summary>
       /// Gets the moves as a string.
       /// </summary>
-      public string MovesList
+      public string MoveList
       {
          get { return _moveList.ToString(); }
       }
@@ -135,6 +135,7 @@ namespace Alteridem.Sokoban
          {
             Moves++;
          }
+         _player = newPlayer;
          _moveList.Append( moveLetter );
          return true;
       }
