@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Text;
 
 namespace Alteridem.Sokoban
@@ -136,6 +137,15 @@ namespace Alteridem.Sokoban
          }
          _moveList.Append( moveLetter );
          return true;
+      }
+
+      /// <summary>
+      /// Determines whether this instance is solved.
+      /// </summary>
+      /// <returns></returns>
+      public bool IsSolved()
+      {
+         return Squares.All( row => !row.Any( c => c == BOX ) );
       }
 
       #endregion

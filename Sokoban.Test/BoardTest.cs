@@ -43,5 +43,16 @@ namespace Alteridem.Sokoban.Test
             Assert.AreEqual(boardStr, board.ToString());
          }
       }
+
+      [TestCase( SIMPLE_BOARD, false )]
+      [TestCase( MEDIUM_BOARD, false )]
+      [TestCase( "#####\r\n# @*#\r\n#####", true )]
+      [TestCase( "#######\r\n#@  # #\r\n#** * #\r\n#   * #\r\n# ..  #\r\n#  *  #\r\n#######", true )]
+      public void TestSolved(string boardStr, bool isSolved)
+      {
+         var board = new Board();
+         board.Load( boardStr );
+         Assert.AreEqual( isSolved, board.IsSolved() );
+      }
    }
 }
