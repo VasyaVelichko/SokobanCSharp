@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace Alteridem.Sokoban
 {
@@ -150,13 +151,58 @@ namespace Alteridem.Sokoban
          return Squares.All( row => !row.Any( c => c == BOX ) );
       }
 
+      /// <summary>
+      /// Gets a RLE'd version of the board
+      /// </summary>
+      /// <returns></returns>
+      public string ToRunLengthEncodedString()
+      {
+         return ConverToRunLengthEncoded( ToString() );
+      }
+
       #endregion
 
       #region Private Methods
 
-      private string ConvertFromRunLengthEncoded(string board)
+      private string ConverToRunLengthEncoded( string board )
       {
-         board = board.Replace("|", "\n")
+         if (string.IsNullOrEmpty(board))
+            return string.Empty;
+
+         board = board.Replace( "\r\n", "|" )
+                      .Replace( ' ', '-' );
+
+         var sb = new StringBuilder();
+         int count = 1;
+         char current = board[0];
+         for ( int i = 1; i < board.Length; i++ )
+         {
+            if ( current == board[i] )
+            {
+               count++;
+            }
+            else
+            {
+               OutputRunLengthEncoded(count, sb, current);
+               count = 1;
+               current = board[i];
+            }
+         }
+         OutputRunLengthEncoded( count, sb, current );
+         return sb.ToString();
+      }
+
+      private static void OutputRunLengthEncoded(int count, StringBuilder sb, char current)
+      {
+         if (count == 1)
+            sb.Append(current);
+         else
+            sb.AppendFormat("{0}{1}", count, current);
+      }
+
+      private string ConvertFromRunLengthEncoded( string board )
+      {
+         board = board.Replace( "|", "\n" )
                       .Replace( '-', ' ' )
                       .Replace( '_', ' ' );
 
@@ -165,29 +211,29 @@ namespace Alteridem.Sokoban
          return board;
       }
 
-      private string ExpandRunLengthEncoding(string board)
+      private string ExpandRunLengthEncoding( string board )
       {
          var rle = string.Empty;
          var sb = new StringBuilder();
-         foreach (char c in board)
+         foreach ( char c in board )
          {
-            if (Char.IsDigit(c))
+            if ( Char.IsDigit( c ) )
             {
                rle += c;
             }
             else
             {
-               if (rle == string.Empty)
+               if ( rle == string.Empty )
                {
-                  sb.Append(c);
+                  sb.Append( c );
                }
                else
                {
-                  int count = Int32.Parse(rle);
+                  int count = Int32.Parse( rle );
                   rle = string.Empty;
-                  for (int x = 0; x < count; x++)
+                  for ( int x = 0; x < count; x++ )
                   {
-                     sb.Append(c);
+                     sb.Append( c );
                   }
                }
             }
