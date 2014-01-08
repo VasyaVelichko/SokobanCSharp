@@ -11,6 +11,12 @@ namespace Alteridem.Sokoban.Test
       private const string LARGE_BOARD = "#######\r\n#     #\r\n#     #\r\n#. #  #\r\n#. $$ #\r\n#.$$  #\r\n#.#  @#\r\n#######";
       private const string LARGE_BOARD_SOLUTION = "ulULLulDDurrrddlULrruLLrrUruLLLulD";
 
+      // Run length encoded boards
+      private const string DOWN_BOARD_RLE = "3#|#@#|#$#|#.#|3#";
+      private const string SIMPLE_BOARD_RLE = "5#|#@$.#|5#";
+      private const string MEDIUM_BOARD_RLE = "7#|#.@-#-#|#$*-$-#|#3-$-#|#-..--#|#--*--#|7#";
+      private const string LARGE_BOARD_RLE = "7#|#5-#|#5-#|#.-#2-#|#.-2$-#|#.2$--#|#.#--@#|7#";
+
       [TestCase( "", "" )]
       [TestCase( SIMPLE_BOARD, SIMPLE_BOARD )]
       [TestCase( MEDIUM_BOARD, MEDIUM_BOARD )]
@@ -20,6 +26,19 @@ namespace Alteridem.Sokoban.Test
       {
          var board = new Board();
          board.Load(boardStr);
+         Assert.AreEqual( expected, board.ToString() );
+      }
+
+      [TestCase( "", "" )]
+      [TestCase( "-11#-", " ########### " )]
+      [TestCase( DOWN_BOARD_RLE, DOWN_BOARD )]
+      [TestCase( SIMPLE_BOARD_RLE, SIMPLE_BOARD )]
+      [TestCase( MEDIUM_BOARD_RLE, MEDIUM_BOARD )]
+      [TestCase( LARGE_BOARD_RLE, LARGE_BOARD )]
+      public void TestLoadRunLengthEncodedBoards( string rleBoard, string expected )
+      {
+         var board = new Board();
+         board.Load( rleBoard );
          Assert.AreEqual( expected, board.ToString() );
       }
 

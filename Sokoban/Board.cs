@@ -6,7 +6,7 @@ namespace Alteridem.Sokoban
 {
    public class Board
    {
-      #region Board Defines
+      #region Defines
 
       private const char WALL = '#';
       private const char PLAYER = '@';
@@ -60,15 +60,16 @@ namespace Alteridem.Sokoban
          Pushes = 0;
       }
 
-      public void Load(string board)
+      public void Load( string board )
       {
-         board = board.Replace("\r", "");
+         board = board.Replace( "\r", "" );
 
-         // TODO: Modify for RLE
+         // Modify from RLE
+         board = ConvertFromRunLengthEncoded( board );
 
-         string[] rows = board.Split(new[] {'\n'});
+         string[] rows = board.Split( new[] { '\n' } );
          Squares = new char[rows.Length][];
-         for (int r = 0; r < rows.Length; r++)
+         for ( int r = 0; r < rows.Length; r++ )
          {
             Squares[r] = rows[r].ToCharArray();
          }
@@ -152,6 +153,47 @@ namespace Alteridem.Sokoban
       #endregion
 
       #region Private Methods
+
+      private string ConvertFromRunLengthEncoded(string board)
+      {
+         board = board.Replace("|", "\n")
+                      .Replace( '-', ' ' )
+                      .Replace( '_', ' ' );
+
+         board = ExpandRunLengthEncoding( board );
+
+         return board;
+      }
+
+      private string ExpandRunLengthEncoding(string board)
+      {
+         var rle = string.Empty;
+         var sb = new StringBuilder();
+         foreach (char c in board)
+         {
+            if (Char.IsDigit(c))
+            {
+               rle += c;
+            }
+            else
+            {
+               if (rle == string.Empty)
+               {
+                  sb.Append(c);
+               }
+               else
+               {
+                  int count = Int32.Parse(rle);
+                  rle = string.Empty;
+                  for (int x = 0; x < count; x++)
+                  {
+                     sb.Append(c);
+                  }
+               }
+            }
+         }
+         return sb.ToString();
+      }
 
       /// <summary>
       /// Determines whether the move is valid.
