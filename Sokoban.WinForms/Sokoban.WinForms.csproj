@@ -94,6 +94,15 @@
       <Name>Sokoban</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Assets\box.png" />
+    <Content Include="Assets\box_on_goal.png" />
+    <Content Include="Assets\goal.png" />
+    <Content Include="Assets\player.png" />
+    <Content Include="Assets\player_on_goal.png" />
+    <Content Include="Assets\wall.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
