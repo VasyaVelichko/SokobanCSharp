@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sokoban", "Sokoban\Sokoban.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sokoban.Test", "Sokoban.Test\Sokoban.Test.csproj", "{DC73CD9B-7DA0-402F-9DC4-2177997F1CA8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sokoban.WinForms", "Sokoban.WinForms\Sokoban.WinForms.csproj", "{1F140964-52A4-4B52-9879-05795B3E9F01}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{DC73CD9B-7DA0-402F-9DC4-2177997F1CA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DC73CD9B-7DA0-402F-9DC4-2177997F1CA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DC73CD9B-7DA0-402F-9DC4-2177997F1CA8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1F140964-52A4-4B52-9879-05795B3E9F01}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1F140964-52A4-4B52-9879-05795B3E9F01}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1F140964-52A4-4B52-9879-05795B3E9F01}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1F140964-52A4-4B52-9879-05795B3E9F01}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

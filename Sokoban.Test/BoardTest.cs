@@ -81,6 +81,20 @@ namespace Alteridem.Sokoban.Test
          }
       }
 
+      [TestCase( "", 0, 0 )]
+      [TestCase( SIMPLE_BOARD, 3, 5 )]
+      [TestCase( MEDIUM_BOARD, 7, 7 )]
+      [TestCase( DOWN_BOARD, 5, 3 )]
+      [TestCase( LARGE_BOARD, 8, 7 )]
+      [TestCase( "3#|#-3#|#3-#|5#", 4, 5 )]
+      public void TestRowsAndColumns( string boardStr, int rows, int columns )
+      {
+         var board = new Board();
+         board.Load( boardStr );
+         Assert.AreEqual( rows, board.Rows, "Incorrect Rows" );
+         Assert.AreEqual( columns, board.Columns, "Incorrect Columns" );
+      }
+
       [TestCase( SIMPLE_BOARD, false )]
       [TestCase( MEDIUM_BOARD, false )]
       [TestCase( "#####\r\n# @*#\r\n#####", true )]

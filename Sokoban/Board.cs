@@ -51,18 +51,30 @@ namespace Alteridem.Sokoban
       /// </summary>
       public int Pushes { get; private set; }
 
+      /// <summary>
+      /// The number of rows
+      /// </summary>
+      public int Rows { get; private set; }
+
+      /// <summary>
+      /// The number of columns
+      /// </summary>
+      public int Columns { get; private set; }
+
       #endregion
 
       #region Construction
 
       public Board()
       {
-         Moves = 0;
-         Pushes = 0;
       }
 
       public void Load( string board )
       {
+         Moves = 0;
+         Pushes = 0;
+         _moveList.Clear( );
+
          board = board.Replace( "\r", "" );
 
          // Modify from RLE
@@ -70,11 +82,18 @@ namespace Alteridem.Sokoban
 
          string[] rows = board.Split( new[] { '\n' } );
          Squares = new char[rows.Length][];
+         Rows = rows.Length;
          for ( int r = 0; r < rows.Length; r++ )
          {
+            if ( rows[r].Length > Columns )
+               Columns = rows[r].Length;
+
             Squares[r] = rows[r].ToCharArray();
          }
          _player = FindPlayer();
+
+         if ( Columns == 0 )
+            Rows = 0;
       }
 
       #endregion
