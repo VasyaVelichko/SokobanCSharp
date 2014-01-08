@@ -9,13 +9,13 @@ namespace Alteridem.Sokoban
    {
       #region Defines
 
-      private const char WALL = '#';
-      private const char PLAYER = '@';
-      private const char PLAYER_ON_GOAL = '+';
-      private const char BOX = '$';
-      private const char BOX_ON_GOAL = '*';
-      private const char GOAL = '.';
-      private const char FLOOR = ' ';
+      public const char WALL = '#';
+      public const char PLAYER = '@';
+      public const char PLAYER_ON_GOAL = '+';
+      public const char BOX = '$';
+      public const char BOX_ON_GOAL = '*';
+      public const char GOAL = '.';
+      public const char FLOOR = ' ';
 
       #endregion
 

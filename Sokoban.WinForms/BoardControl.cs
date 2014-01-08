@@ -10,15 +10,15 @@ namespace Alteridem.Sokoban.WinForms
       public BoardControl()
       {
          InitializeComponent();
-         _board = new Board(  );
+         _board = new Board();
          _board.Load( "7#|#5-#|#5-#|#.-#2-#|#.-2$-#|#.2$2-#|#.#2-@#|7#" );
-         UpdateBoard(  );
+         UpdateBoard();
       }
 
       private void UpdateBoard()
       {
-         _label.ForeColor = _board.IsSolved( ) ? Color.DarkRed : Color.DarkBlue;
-         _label.Text = _board.ToString( );
+         _label.ForeColor = _board.IsSolved() ? Color.DarkRed : Color.DarkBlue;
+         _label.Text = ConvertBoardToFont();
       }
 
       private void OnKeyUp( object sender, KeyEventArgs e )
@@ -29,7 +29,7 @@ namespace Alteridem.Sokoban.WinForms
             {
                case Keys.Up:
                   if ( _board.MakeMove( Sokoban.Move.Up ) )
-                     UpdateBoard( );
+                     UpdateBoard();
                   break;
                case Keys.Down:
                   if ( _board.MakeMove( Sokoban.Move.Down ) )
@@ -45,6 +45,18 @@ namespace Alteridem.Sokoban.WinForms
                   break;
             }
          }
+      }
+
+      private string ConvertBoardToFont()
+      {
+         return
+            _board.ToString( )
+               .Replace( Board.WALL, '█' )
+               .Replace( Board.PLAYER, '☺' )
+               .Replace( Board.PLAYER_ON_GOAL, '☻' )
+               .Replace( Board.BOX, '□' )
+               .Replace( Board.BOX_ON_GOAL, '■' )
+               .Replace( Board.GOAL, '●' );
       }
    }
 }
