@@ -1,16 +1,18 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace Alteridem.Sokoban.WinForms
 {
    public partial class BoardControl : UserControl
    {
-      private Board _board;
+      private readonly Board _board;
+      private int _headerHeight;
 
       public BoardControl()
       {
          InitializeComponent();
-         SetStyle( ControlStyles.ResizeRedraw | 
+         SetStyle( ControlStyles.ResizeRedraw |
                    ControlStyles.UserPaint |
                    ControlStyles.AllPaintingInWmPaint |
                    ControlStyles.DoubleBuffer, true );
@@ -26,7 +28,7 @@ namespace Alteridem.Sokoban.WinForms
 
       private void OnKeyUp( object sender, KeyEventArgs e )
       {
-         if ( e.Modifiers == Keys.None )
+         if ( e.Modifiers == Keys.None && !_board.IsSolved() )
          {
             switch ( e.KeyCode )
             {
@@ -53,10 +55,22 @@ namespace Alteridem.Sokoban.WinForms
       protected override void OnPaint( PaintEventArgs e )
       {
          base.OnPaint( e );
+
+         if (_headerHeight == 0)
+         {
+            _headerHeight = (int)(e.Graphics.MeasureString("S", Font).Height + 0.5);
+         }
+
+         DrawBoard( e );
+         DrawSolved( e );
+      }
+
+      private void DrawBoard( PaintEventArgs e )
+      {
          int width = _board.Columns * 48;
          int height = _board.Rows * 48;
          int xOffset = ( Width - width ) / 2;
-         int yOffset = ( Height - height ) / 2;
+         int yOffset = ( Height - _headerHeight - height ) / 2 + _headerHeight;
 
          for ( int r = 0; r < _board.Squares.Length; r++ )
          {
@@ -91,16 +105,18 @@ namespace Alteridem.Sokoban.WinForms
          }
       }
 
-      private string ConvertBoardToFont()
+      private void DrawSolved( PaintEventArgs e )
       {
-         return
-            _board.ToString()
-               .Replace( Board.WALL, '█' )
-               .Replace( Board.PLAYER, '☺' )
-               .Replace( Board.PLAYER_ON_GOAL, '☻' )
-               .Replace( Board.BOX, '□' )
-               .Replace( Board.BOX_ON_GOAL, '■' )
-               .Replace( Board.GOAL, '●' );
+         if ( _board.IsSolved() )
+         {
+            const string solved = "Level Solved!";
+            var sf = new StringFormat
+            {
+               LineAlignment = StringAlignment.Near,
+               Alignment = StringAlignment.Center
+            };
+            e.Graphics.DrawString( solved, Font, Brushes.DarkRed, ClientRectangle, sf );
+         }
       }
    }
 }

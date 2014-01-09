@@ -46,11 +46,13 @@
          // 
          // BoardControl
          // 
-         this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+         this.AutoScaleDimensions = new System.Drawing.SizeF(23F, 43F);
          this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
          this.BackColor = System.Drawing.Color.White;
+         this.Font = new System.Drawing.Font("Arial Rounded MT Bold", 27.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+         this.Margin = new System.Windows.Forms.Padding(11, 10, 11, 10);
          this.Name = "BoardControl";
-         this.Size = new System.Drawing.Size(434, 256);
+         this.Size = new System.Drawing.Size(685, 493);
          this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.OnKeyUp);
          this.ResumeLayout(false);
 
