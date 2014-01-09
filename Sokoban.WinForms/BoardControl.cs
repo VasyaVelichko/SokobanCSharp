@@ -10,6 +10,10 @@ namespace Alteridem.Sokoban.WinForms
       public BoardControl()
       {
          InitializeComponent();
+         SetStyle( ControlStyles.ResizeRedraw | 
+                   ControlStyles.UserPaint |
+                   ControlStyles.AllPaintingInWmPaint |
+                   ControlStyles.DoubleBuffer, true );
          _board = new Board();
          _board.Load( "7#|#5-#|#5-#|#.-#2-#|#.-2$-#|#.2$2-#|#.#2-@#|7#" );
          UpdateBoard();
@@ -46,48 +50,51 @@ namespace Alteridem.Sokoban.WinForms
          }
       }
 
-      protected override void OnPaint(PaintEventArgs e)
+      protected override void OnPaint( PaintEventArgs e )
       {
-         base.OnPaint(e);
+         base.OnPaint( e );
+         int width = _board.Columns * 48;
+         int height = _board.Rows * 48;
+         int xOffset = ( Width - width ) / 2;
+         int yOffset = ( Height - height ) / 2;
 
-         for (int r = 0; r < _board.Squares.Length; r++)
+         for ( int r = 0; r < _board.Squares.Length; r++ )
          {
-            for (int c = 0; c < _board.Squares[r].Length; c++)
+            for ( int c = 0; c < _board.Squares[r].Length; c++ )
             {
-               switch (_board.Squares[r][c])
+               int index = 0;
+               switch ( _board.Squares[r][c] )
                {
                   case Board.WALL:
-                     _imageList.Draw(e.Graphics, c*48, r*48, 0);
+                     index = 0;
                      break;
                   case Board.PLAYER:
-                     _imageList.Draw( e.Graphics, c * 48, r * 48, 1 );
+                     index = 1;
                      break;
                   case Board.PLAYER_ON_GOAL:
-                     _imageList.Draw( e.Graphics, c * 48, r * 48, 2 );
+                     index = 2;
                      break;
                   case Board.BOX:
-                     _imageList.Draw( e.Graphics, c * 48, r * 48, 3 );
+                     index = 3;
                      break;
                   case Board.BOX_ON_GOAL:
-                     _imageList.Draw( e.Graphics, c * 48, r * 48, 4 );
+                     index = 4;
                      break;
                   case Board.GOAL:
-                     _imageList.Draw( e.Graphics, c * 48, r * 48, 5 );
+                     index = 5;
                      break;
+                  default:
+                     continue;
                }
+               _imageList.Draw( e.Graphics, c * 48 + xOffset, r * 48 + yOffset, index );
             }
          }
-      }
-
-      protected override void OnPaintBackground(PaintEventArgs e)
-      {
-         base.OnPaintBackground(e);
       }
 
       private string ConvertBoardToFont()
       {
          return
-            _board.ToString( )
+            _board.ToString()
                .Replace( Board.WALL, '█' )
                .Replace( Board.PLAYER, '☺' )
                .Replace( Board.PLAYER_ON_GOAL, '☻' )
