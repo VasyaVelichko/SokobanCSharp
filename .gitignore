@@ -156,3 +156,4 @@ $RECYCLE.BIN/
 .DS_Store
 /packages/NUnit.2.6.3/lib
 /packages/NUnit.2.6.3
+/packages/MonoGame.3.1.2-alpha
