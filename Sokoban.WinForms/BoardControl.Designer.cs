@@ -28,23 +28,26 @@
       /// </summary>
       private void InitializeComponent()
       {
-         this._label = new System.Windows.Forms.Label();
+         this.components = new System.ComponentModel.Container();
+         System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BoardControl));
+         this._imageList = new System.Windows.Forms.ImageList(this.components);
          this.SuspendLayout();
          // 
-         // _label
+         // _imageList
          // 
-         this._label.Dock = System.Windows.Forms.DockStyle.Fill;
-         this._label.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-         this._label.Location = new System.Drawing.Point(0, 0);
-         this._label.Name = "_label";
-         this._label.Size = new System.Drawing.Size(434, 256);
-         this._label.TabIndex = 0;
+         this._imageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("_imageList.ImageStream")));
+         this._imageList.TransparentColor = System.Drawing.Color.Transparent;
+         this._imageList.Images.SetKeyName(0, "wall.png");
+         this._imageList.Images.SetKeyName(1, "player.png");
+         this._imageList.Images.SetKeyName(2, "player_on_goal.png");
+         this._imageList.Images.SetKeyName(3, "box.png");
+         this._imageList.Images.SetKeyName(4, "box_on_goal.png");
+         this._imageList.Images.SetKeyName(5, "goal.png");
          // 
          // BoardControl
          // 
          this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
          this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-         this.Controls.Add(this._label);
          this.Name = "BoardControl";
          this.Size = new System.Drawing.Size(434, 256);
          this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.OnKeyUp);
@@ -54,6 +57,6 @@
 
       #endregion
 
-      private System.Windows.Forms.Label _label;
+      private System.Windows.Forms.ImageList _imageList;
    }
 }

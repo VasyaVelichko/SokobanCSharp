@@ -17,8 +17,7 @@ namespace Alteridem.Sokoban.WinForms
 
       private void UpdateBoard()
       {
-         _label.ForeColor = _board.IsSolved() ? Color.DarkRed : Color.DarkBlue;
-         _label.Text = ConvertBoardToFont();
+         Invalidate();
       }
 
       private void OnKeyUp( object sender, KeyEventArgs e )
@@ -45,6 +44,44 @@ namespace Alteridem.Sokoban.WinForms
                   break;
             }
          }
+      }
+
+      protected override void OnPaint(PaintEventArgs e)
+      {
+         base.OnPaint(e);
+
+         for (int r = 0; r < _board.Squares.Length; r++)
+         {
+            for (int c = 0; c < _board.Squares[r].Length; c++)
+            {
+               switch (_board.Squares[r][c])
+               {
+                  case Board.WALL:
+                     _imageList.Draw(e.Graphics, c*48, r*48, 0);
+                     break;
+                  case Board.PLAYER:
+                     _imageList.Draw( e.Graphics, c * 48, r * 48, 1 );
+                     break;
+                  case Board.PLAYER_ON_GOAL:
+                     _imageList.Draw( e.Graphics, c * 48, r * 48, 2 );
+                     break;
+                  case Board.BOX:
+                     _imageList.Draw( e.Graphics, c * 48, r * 48, 3 );
+                     break;
+                  case Board.BOX_ON_GOAL:
+                     _imageList.Draw( e.Graphics, c * 48, r * 48, 4 );
+                     break;
+                  case Board.GOAL:
+                     _imageList.Draw( e.Graphics, c * 48, r * 48, 5 );
+                     break;
+               }
+            }
+         }
+      }
+
+      protected override void OnPaintBackground(PaintEventArgs e)
+      {
+         base.OnPaintBackground(e);
       }
 
       private string ConvertBoardToFont()
