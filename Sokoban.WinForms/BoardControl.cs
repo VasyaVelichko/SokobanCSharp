@@ -62,6 +62,7 @@ namespace Alteridem.Sokoban.WinForms
          }
 
          DrawBoard( e );
+         DrawMoves(e);
          DrawSolved( e );
       }
 
@@ -103,6 +104,17 @@ namespace Alteridem.Sokoban.WinForms
                _imageList.Draw( e.Graphics, c * 48 + xOffset, r * 48 + yOffset, index );
             }
          }
+      }
+
+      private void DrawMoves( PaintEventArgs e )
+      {
+         var moves = string.Format( "P:{0} M:{1}", _board.Pushes, _board.Moves );
+         var sf = new StringFormat
+         {
+            LineAlignment = StringAlignment.Near,
+            Alignment = StringAlignment.Near
+         };
+         e.Graphics.DrawString( moves, Font, Brushes.DarkBlue, ClientRectangle, sf );
       }
 
       private void DrawSolved( PaintEventArgs e )
