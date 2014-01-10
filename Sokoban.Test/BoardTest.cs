@@ -107,6 +107,16 @@ namespace Alteridem.Sokoban.Test
          Assert.AreEqual( isSolved, board.IsSolved() );
       }
 
+      [TestCase( "#####\r\n# @*#\r\n#####", Move.Left )]
+      [TestCase( "#######\r\n#@  # #\r\n#** * #\r\n#   * #\r\n# ..  #\r\n#  *  #\r\n#######", Move.Right )]
+      [TestCase( "###\r\n# #\r\n#@#\r\n#*#\r\n###", Move.Up )]
+      public void TestCantMoveOnSolvedBoard( string boardStr, Move move )
+      {
+         var board = new Board();
+         board.Load( boardStr );
+         Assert.IsFalse( board.MakeMove( move ) );
+      }
+
       [TestCase( SIMPLE_BOARD, new[] { Move.Right }, 0, 1 )]
       [TestCase( DOWN_BOARD, new[] { Move.Down }, 0, 1 )]
       [TestCase( MEDIUM_BOARD, new[] { Move.Right, Move.Down, Move.Down, Move.Left, Move.Left, Move.Up, Move.Down, Move.Down, Move.Right, Move.Right, Move.Right, Move.Right, Move.Up }, 12, 1 )]

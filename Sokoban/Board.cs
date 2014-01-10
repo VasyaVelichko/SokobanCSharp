@@ -73,7 +73,7 @@ namespace Alteridem.Sokoban
       {
          Moves = 0;
          Pushes = 0;
-         _moveList.Clear( );
+         _moveList.Clear();
 
          board = board.Replace( "\r", "" );
 
@@ -101,13 +101,16 @@ namespace Alteridem.Sokoban
       #region Public Methods
 
       /// <summary>
-      /// Applies the given move to the current board and returns a new board
+      /// Applies the given move to the current board
       /// </summary>
       /// <param name="move">The move to make</param>
-      /// <returns>The transformed board, or null if the move is invalid</returns>
+      /// <returns>True if the player can make that move, false otherwise</returns>
       public bool MakeMove( Move move )
       {
          if ( !IsMoveValid( move ) )
+            return false;
+
+         if ( IsSolved() )
             return false;
 
          char moveLetter = GetMoveLetter( move );
@@ -185,7 +188,7 @@ namespace Alteridem.Sokoban
 
       private string ConverToRunLengthEncoded( string board )
       {
-         if (string.IsNullOrEmpty(board))
+         if ( string.IsNullOrEmpty( board ) )
             return string.Empty;
 
          board = board.Replace( "\r\n", "|" )
@@ -202,7 +205,7 @@ namespace Alteridem.Sokoban
             }
             else
             {
-               OutputRunLengthEncoded(count, sb, current);
+               OutputRunLengthEncoded( count, sb, current );
                count = 1;
                current = board[i];
             }
@@ -211,12 +214,12 @@ namespace Alteridem.Sokoban
          return sb.ToString();
       }
 
-      private static void OutputRunLengthEncoded(int count, StringBuilder sb, char current)
+      private static void OutputRunLengthEncoded( int count, StringBuilder sb, char current )
       {
-         if (count == 1)
-            sb.Append(current);
+         if ( count == 1 )
+            sb.Append( current );
          else
-            sb.AppendFormat("{0}{1}", count, current);
+            sb.AppendFormat( "{0}{1}", count, current );
       }
 
       private string ConvertFromRunLengthEncoded( string board )
