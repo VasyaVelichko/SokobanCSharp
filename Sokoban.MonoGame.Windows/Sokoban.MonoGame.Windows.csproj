@@ -35,6 +35,7 @@
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="BoardSprites.cs" />
     <Compile Include="SokobanGame.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -47,10 +48,38 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="..\Sokoban.WinForms\Assets\box.png">
+      <Link>Content\box.png</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Sokoban.WinForms\Assets\box_on_goal.png">
+      <Link>Content\box_on_goal.png</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Sokoban.WinForms\Assets\goal.png">
+      <Link>Content\goal.png</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Sokoban.WinForms\Assets\player.png">
+      <Link>Content\player.png</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Sokoban.WinForms\Assets\player_on_goal.png">
+      <Link>Content\player_on_goal.png</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Sokoban.WinForms\Assets\wall.png">
+      <Link>Content\wall.png</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Icon.ico" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="Content\" />
+    <ProjectReference Include="..\Sokoban\Sokoban.csproj">
+      <Project>{92a82108-06aa-40b9-bfc8-e3bffaf51053}</Project>
+      <Name>Sokoban</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

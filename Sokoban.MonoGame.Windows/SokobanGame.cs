@@ -13,13 +13,17 @@ namespace Alteridem.Sokoban.MonoGame.Windows
    /// </summary>
    public class SokobanGame : Game
    {
-      GraphicsDeviceManager graphics;
-      SpriteBatch spriteBatch;
+      private GraphicsDeviceManager _graphics;
+      private SpriteBatch _spriteBatch;
+      private Board _board;
+      private BoardSprites _boardSprites;
+      private KeyboardState _oldState; // Used to determine when a pressed key is released
+      private readonly int _hudHeight = 0; // Set this up now to use later
 
       public SokobanGame()
          : base()
       {
-         graphics = new GraphicsDeviceManager( this );
+         _graphics = new GraphicsDeviceManager( this );
          Content.RootDirectory = "Content";
       }
 
@@ -31,10 +35,14 @@ namespace Alteridem.Sokoban.MonoGame.Windows
       /// </summary>
       protected override void Initialize()
       {
-         // TODO: Add your initialization logic here
          IsMouseVisible = true;
          Window.Title = "Sokoban";
          Window.IsBorderless = true;
+
+         _oldState = Keyboard.GetState( );
+
+         _board = new Board();
+         _board.Load( "7#|#5-#|#5-#|#.-#2-#|#.-2$-#|#.2$2-#|#.#2-@#|7#" );
 
          base.Initialize();
       }
@@ -46,9 +54,8 @@ namespace Alteridem.Sokoban.MonoGame.Windows
       protected override void LoadContent()
       {
          // Create a new SpriteBatch, which can be used to draw textures.
-         spriteBatch = new SpriteBatch( GraphicsDevice );
-
-         // TODO: use this.Content to load your game content here
+         _spriteBatch = new SpriteBatch( GraphicsDevice );
+         _boardSprites = new BoardSprites( this );
       }
 
       /// <summary>
@@ -57,7 +64,6 @@ namespace Alteridem.Sokoban.MonoGame.Windows
       /// </summary>
       protected override void UnloadContent()
       {
-         // TODO: Unload any non ContentManager content here
       }
 
       /// <summary>
@@ -70,7 +76,18 @@ namespace Alteridem.Sokoban.MonoGame.Windows
          if ( GamePad.GetState( PlayerIndex.One ).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown( Keys.Escape ) )
             Exit();
 
-         // TODO: Add your update logic here
+         var newState = Keyboard.GetState( );
+
+         if ( newState.IsKeyDown( Keys.Up ) && !_oldState.IsKeyDown( Keys.Up ) )
+            _board.MakeMove( Move.Up );
+         else if ( newState.IsKeyDown( Keys.Down ) && !_oldState.IsKeyDown( Keys.Down ) )
+            _board.MakeMove( Move.Down );
+         else if ( newState.IsKeyDown( Keys.Right ) && !_oldState.IsKeyDown( Keys.Right ) )
+            _board.MakeMove( Move.Right );
+         else if ( newState.IsKeyDown( Keys.Left ) && !_oldState.IsKeyDown( Keys.Left ) )
+            _board.MakeMove( Move.Left );
+
+         _oldState = newState;
 
          base.Update( gameTime );
       }
@@ -81,9 +98,12 @@ namespace Alteridem.Sokoban.MonoGame.Windows
       /// <param name="gameTime">Provides a snapshot of timing values.</param>
       protected override void Draw( GameTime gameTime )
       {
-         GraphicsDevice.Clear( Color.CornflowerBlue );
+         GraphicsDevice.Clear( _board.IsSolved() ? Color.PeachPuff : Color.CornflowerBlue );
 
-         // TODO: Add your drawing code here
+         _spriteBatch.Begin();
+         var gameBounds = new Rectangle( 0, _hudHeight, Window.ClientBounds.Width, Window.ClientBounds.Height - _hudHeight );
+         _boardSprites.Draw( _spriteBatch, _board, gameBounds );
+         _spriteBatch.End();
 
          base.Draw( gameTime );
       }
