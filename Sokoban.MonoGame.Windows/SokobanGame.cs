@@ -98,7 +98,7 @@ namespace Alteridem.Sokoban.MonoGame.Windows
       /// <param name="gameTime">Provides a snapshot of timing values.</param>
       protected override void Draw( GameTime gameTime )
       {
-         GraphicsDevice.Clear( _board.IsSolved() ? Color.PeachPuff : Color.CornflowerBlue );
+         GraphicsDevice.Clear( _board.IsSolved() ? Color.RoyalBlue : Color.CornflowerBlue );
 
          _spriteBatch.Begin();
          var gameBounds = new Rectangle( 0, _hudHeight, Window.ClientBounds.Width, Window.ClientBounds.Height - _hudHeight );
