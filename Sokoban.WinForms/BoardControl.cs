@@ -28,27 +28,24 @@ namespace Alteridem.Sokoban.WinForms
 
       private void OnKeyUp( object sender, KeyEventArgs e )
       {
-         if ( e.Modifiers == Keys.None && !_board.IsSolved() )
+         switch ( e.KeyCode )
          {
-            switch ( e.KeyCode )
-            {
-               case Keys.Up:
-                  if ( _board.MakeMove( Sokoban.Move.Up ) )
-                     UpdateBoard();
-                  break;
-               case Keys.Down:
-                  if ( _board.MakeMove( Sokoban.Move.Down ) )
-                     UpdateBoard();
-                  break;
-               case Keys.Right:
-                  if ( _board.MakeMove( Sokoban.Move.Right ) )
-                     UpdateBoard();
-                  break;
-               case Keys.Left:
-                  if ( _board.MakeMove( Sokoban.Move.Left ) )
-                     UpdateBoard();
-                  break;
-            }
+            case Keys.Up:
+               if ( _board.MakeMove( Sokoban.Move.Up ) )
+                  UpdateBoard();
+               break;
+            case Keys.Down:
+               if ( _board.MakeMove( Sokoban.Move.Down ) )
+                  UpdateBoard();
+               break;
+            case Keys.Right:
+               if ( _board.MakeMove( Sokoban.Move.Right ) )
+                  UpdateBoard();
+               break;
+            case Keys.Left:
+               if ( _board.MakeMove( Sokoban.Move.Left ) )
+                  UpdateBoard();
+               break;
          }
       }
 
